@@ -131,8 +131,8 @@ def plot_multi(config, max_step=1e6, interval=1e4, err_type='line',
     
     if "output_dir" in config.keys():
         os.makedirs("plot/" + config["output_dir"], exist_ok = True)
-    fig.savefig('plot/%s.png' % output_filename, bbox_inches='tight')
-    fig.savefig('plot/%s.pdf' % output_filename, bbox_inches='tight')
+    fig.savefig('plot/%s.png' % output_filename, bbox_inches='tight', dpi=200)
+    fig.savefig('plot/%s.pdf' % output_filename, bbox_inches='tight', dpi=200)
     plt.close(fig)
     plt.close()
     display(Image(filename='plot/%s.png' % output_filename))
