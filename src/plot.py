@@ -41,8 +41,11 @@ def format_plot(ax, fig, max_size):
 
 def plot_error(fig, ax, data, color, label, linestyle='-', marker='', 
                linewidth=2.5, max_step=60e6, interval=1e5, err_type='line',
-               load_func=load_csv_data):
-    step, vals = load_func(data, max_step=max_step, interval=interval)
+               load_func=load_csv_data, y_label=None):
+    if y_label is not None:
+        step, vals = load_func(data, max_step=max_step, interval=interval, reward_label=y_label)
+    else:
+        step, vals = load_func(data, max_step=max_step, interval=interval)
     if step is None:
         return 0, 0
     mean, std = plot_curve(ax, step, vals, color, label, linestyle, marker, 
@@ -97,7 +100,12 @@ def plot_multi(config, max_step=1e6, interval=1e4, err_type='line',
         color = data['color']
         logdirs = data['logdirs']
         load_func = data['load_func']
-        mean, std = plot_error(fig, ax, logdirs, color, name, max_step=max_step, 
+        if "y_label" in data.keys():
+            mean, std = plot_error(fig, ax, logdirs, color, name, max_step=max_step, 
+                                interval=interval, err_type=err_type, 
+                                load_func=load_func, y_label=data["y_label"])
+        else:
+            mean, std = plot_error(fig, ax, logdirs, color, name, max_step=max_step, 
                                 interval=interval, err_type=err_type, 
                                 load_func=load_func)
             
