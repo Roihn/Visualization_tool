@@ -98,3 +98,24 @@ def load_csv_data(data, max_step=10**7, interval=10**6, y_name="episode_raw_rewa
     rewards = [stat_y[i][-1] for i in range(len(stat_y))]
     print('average reward', np.mean(rewards), 'std', np.std(rewards)/np.sqrt(len(rewards)))
     return stat_x, np.stack(stat_y, axis=0)
+
+
+def load_pickles(dir_paths):
+    res = {}
+    for dir_path in dir_paths:
+        paths = glob.glob(dir_path + '/*.pkl')
+        for path in paths:
+            with open(path, 'rb') as f:
+                data = pickle.load(f)
+                for key in data.keys():
+                    env_name, metrics = key.split('/')
+                    if metrics in res.keys():
+                        if env_name in res[metrics].keys():
+                            res[metrics][env_name].append(data[key])
+                        else:
+                            res[metrics][env_name] = [data[key]]
+                    else:
+                        res[metrics] = {env_name: [data[key]]}
+    
+    return res
+

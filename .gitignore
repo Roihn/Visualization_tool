@@ -1,4 +1,5 @@
 __pycache__
 plot
 *.csv
-plot_*.ipynb
+plot_old.ipynb
+plot_roihn.ipynb
